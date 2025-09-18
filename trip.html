@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trip Planner</title>
+  <link rel="stylesheet" href="trip.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Trip Planner</h1>
+    <p>Effortlessly plan your dream vacation with our Trip Planner, no manual work required. Just fill in your details and let us create the perfect itinerary for you!</p>
+
+    <form id="tripForm">
+      <label for="name">Your Name</label>
+      <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+      <label for="age">Your Age</label>
+      <input type="number" id="age" name="age" placeholder="Enter your age" required>
+
+      <label for="people">Number of Travelers</label>
+      <input type="number" id="people" name="people" placeholder="How many people are traveling?" required>
+
+      <label for="destination">Destination</label>
+      <input type="text" id="destination" name="destination" placeholder="Enter your destination" required>
+
+      <label for="days">Number of Days</label>
+      <input type="text" id="days" name="days" placeholder="e.g., 3 days" required>
+
+      <label for="budget">Current Budget (in ₹)</label>
+      <input type="number" id="budget" name="budget" placeholder="Enter your budget" required>
+
+      <label for="transport">Mode of Transportation</label>
+      <select id="transport" name="transport" required>
+        <option value="">--Select--</option>
+        <option value="flight">Flight</option>
+        <option value="train">Train</option>
+        <option value="bus">Bus</option>
+      </select>
+
+      <label for="hotel">Preferred Hotel Type</label>
+      <select id="hotel" name="hotel">
+        <option value="">--Select--</option>
+        <option value="budget">Budget</option>
+        <option value="standard">Standard</option>
+        <option value="luxury">Luxury</option>
+      </select>
+
+      <label for="activities">Special Interests / Activities</label>
+      <input type="text" id="activities" name="activities" placeholder="e.g., adventure, sightseeing, beaches">
+
+      <button type="submit" class="btn">Generate Trip Plan</button>
+    </form>
+  </div>
+
+  <script src="trip.jsx"></script>
+</body>
+</html>
