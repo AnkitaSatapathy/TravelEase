@@ -43,7 +43,7 @@
           <p>ELEVATE YOUR TRAVEL JOURNEY</p>
           <h1>Experience The Magic</h1>
           <div class="header__btns">
-            <button class="btn">Book A Trip Now</button>
+            <button class="btn" id="book-trip-btn">Book A Trip Now</button>
           </div>
         </div>
         <div class="header__image">
@@ -188,6 +188,7 @@
             </p>
           </div>
         </div>
+
         <div class="journey__card">
           <div class="journey__card__bg">
             <span><i class="ri-landscape-fill"></i></span>
@@ -203,6 +204,7 @@
             </p>
           </div>
         </div>
+
         <div class="journey__card">
           <div class="journey__card__bg">
             <span><i class="ri-map-2-line"></i></span>
@@ -218,6 +220,19 @@
           </div>
         </div>
       </div>
+
+     <!-- Buttons placed outside the cards, visually aligned under each box -->
+     <div class="journey__actions journey__grid">
+       <div class="journey__action">
+         <button class="btn journey__btn" id="seamless-btn">Learn More</button>
+       </div>
+       <div class="journey__action">
+         <button class="btn journey__btn" id="tailored-btn">Plan My Trip</button>
+       </div>
+       <div class="journey__action">
+         <button class="btn journey__btn" id="insights-btn">View Tips</button>
+       </div>
+     </div>
     </section>
 
     <footer id="contact">
@@ -287,5 +302,20 @@
     <script src="https://unpkg.com/scrollreveal"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="main.js"></script>
+    <script>
+     // Smooth-scroll to the "Journey To Your Dream Destination Made Simple!" section
+     document.getElementById('book-trip-btn')?.addEventListener('click', function () {
+       const target = document.getElementById('tour');
+       if (target) {
+         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+         history.pushState(null, '', '#tour');
+       }
+     });
+
+      // Open trip.html in a new tab when "Plan My Trip" (Tailored Itineraries) is clicked
+    document.getElementById('tailored-btn')?.addEventListener('click', function () {
+      window.open('./trip.html', '_blank');
+    });
+   </script>
   </body>
 </html>
