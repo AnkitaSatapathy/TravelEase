@@ -20,17 +20,21 @@ A comprehensive trip planning application that uses OpenAI's GPT to generate det
 ```
 trip-planner/
 ├── frontend/
-|   ├── index.html     # Main webpage
-│   ├── styles.css     # Styling 
+|   ├── index.html     
+│   ├── styles.css      
 │   |── main.js 
 │   ├── trip.html      
 │   ├── trip.css       
-│   └── trip.js        # Frontend JavaScript with AI integration
+│   └── trip.js        
+│   ├── comparison.html      
+│   ├── comparison.css       
+│   └── comparison.js
 ├── backend/
-│   ├── server.js      # Express server with OpenAI integration
-│   ├── package.json   # Node.js dependencies
-│   └── .env           # Environment variables (API keys)
-└── README.md          # This setup guide
+│   ├── server.js
+│   ├── comparisonserver.js    
+│   ├── package.json   
+│   └── .env           
+└── README.md          
 ```
 
 ## 💡 Features Explanation
