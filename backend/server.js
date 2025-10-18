@@ -1,7 +1,9 @@
-const express = require('express');
-const cors = require('cors');
-const fetch = require('node-fetch');
-require('dotenv').config();
+import express from 'express';
+import cors from 'cors';
+import fetch from 'node-fetch';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -254,13 +256,24 @@ app.post('/api/generate-trip', async (req, res) => {
     
     try {
       // Clean up the response - remove markdown formatting if present
-      let cleanContent = rawContent;
-      if (rawContent.includes('```json')) {
-        const match = rawContent.match(/```json\n([\s\S]*?)\n```/);
+      let cleanContent = rawContent.trim();
+      if (cleanContent.includes('```json')) {
+        const match = cleanContent.match(/```json\n([\s\S]*?)\n```/);
         if (match) cleanContent = match[1];
-      } else if (rawContent.includes('```')) {
-        const match = rawContent.match(/```\n([\s\S]*?)\n```/);  
+      } else if (cleanContent.includes('```')) {
+        const match = cleanContent.match(/```\n([\s\S]*?)\n```/);  
         if (match) cleanContent = match[1];
+      }
+      
+      // Try to fix common JSON issues
+      cleanContent = cleanContent.trim();
+      
+      // If JSON is incomplete, try to find the last valid closing brace
+      if (!cleanContent.endsWith('}')) {
+        const lastBraceIndex = cleanContent.lastIndexOf('}');
+        if (lastBraceIndex !== -1) {
+          cleanContent = cleanContent.substring(0, lastBraceIndex + 1);
+        }
       }
       
       tripPlan = JSON.parse(cleanContent);
@@ -268,12 +281,13 @@ app.post('/api/generate-trip', async (req, res) => {
       
     } catch (parseError) {
       console.error('❌ Failed to parse OpenAI response:', parseError.message);
-      console.log('📄 Raw response preview:', rawContent.substring(0, 500));
+      console.log('📄 Raw response length:', rawContent.length);
+      console.log('📄 Raw response preview:', rawContent.substring(0, 1000));
       
       return res.status(500).json({ 
-        error: 'Failed to parse AI response', 
+        error: 'Failed to parse AI response - Response was incomplete or malformed', 
         details: parseError.message,
-        rawResponse: rawContent.substring(0, 1000)
+        suggestion: 'Try increasing max_tokens or using a different OpenAI model'
       });
     }
 
