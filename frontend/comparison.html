@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TravelEase - Destination Comparison</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="comparison.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>✈️ TravelEase Destination Comparison</h1>
+
+    <div class="destinations-section">
+      <h2>🌍 Destinations</h2>
+      <div id="destinationInputs"></div>
+      <button id="addDestinationBtn">➕ Add Destination</button>
+    </div>
+
+    <div class="preferences-section">
+      <h2>⚙️ Your Preferences</h2>
+
+      <div class="slider-group">
+        <label>💰 Budget: ₹<span id="budgetValue">3000</span></label>
+        <input type="range" min="500" max="100000" value="3000" id="budget">
+      </div>
+
+      <div class="slider-group">
+        <label>📅 Duration: <span id="durationValue">7</span> days</label>
+        <input type="range" min="1" max="30" value="7" id="duration">
+      </div>
+
+      <div class="slider-group">
+        <label>🗓️ Preferred Month:</label>
+        <select id="month">
+          <option value="January">January</option>
+          <option value="February">February</option>
+          <option value="March">March</option>
+          <option value="April">April</option>
+          <option value="May" selected>May</option>
+          <option value="June">June</option>
+          <option value="July">July</option>
+          <option value="August">August</option>
+          <option value="September">September</option>
+          <option value="October">October</option>
+          <option value="November">November</option>
+          <option value="December">December</option>
+        </select>
+      </div>
+
+      <div style="margin-top: 25px;">
+        <h3 style="color: #1a1a2e; font-size: 1.05em; margin-bottom: 20px; font-weight: 700;">🎯 Rate Your Preferences (1-5)</h3>
+        <div id="prioritiesGrid" class="priorities-grid"></div>
+      </div>
+    </div>
+
+    <div class="compare-section">
+      <button id="compareBtn">
+        <span class="btn-text">🔍 Compare Destinations</span>
+        <span class="btn-loader" style="display:none;">⏳</span>
+      </button>
+      <div id="errorMessage" class="error-message"></div>
+    </div>
+
+    <div id="resultsSection" class="results-section" style="display:none">
+      <div class="results-header">
+        <h3>📊 Comparison Results</h3>
+        <p style="color: #666; font-size: 1.05em;">Based on your preferences and travel style</p>
+      </div>
+      <div id="resultsGrid"></div>
+    </div>
+  </div>
+  <script src="comparison.js"></script>
+</body>
+</html>

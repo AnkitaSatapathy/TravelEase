@@ -208,14 +208,15 @@
         <div class="journey__card">
           <div class="journey__card__bg">
             <span><i class="ri-map-2-line"></i></span>
-            <h4>Expert Local Insights</h4>
+            <h4>Destination Insights</h4>
           </div>
           <div class="journey__card__content">
             <span><i class="ri-map-2-line"></i></span>
-            <h4>Insider Tips and Recommendations</h4>
+            <h4>Compare Destinations</h4>
             <p>
-              We provide curated recommendations for dining, sightseeing, and
-              hidden gems, so you can experience each destination like a local.
+              Make informed decisions with our comprehensive destination
+              comparisons. Evaluate options based on your budget, duration, and
+              travel style to choose the perfect location for your next trip.
             </p>
           </div>
         </div>
@@ -230,7 +231,7 @@
          <button class="btn journey__btn" id="tailored-btn">Plan My Trip</button>
        </div>
        <div class="journey__action">
-         <button class="btn journey__btn" id="insights-btn">View Tips</button>
+         <button class="btn journey__btn" id="insights-btn">Compare</button>
        </div>
      </div>
     </section>
@@ -315,6 +316,11 @@
       // Open trip.html in a new tab when "Plan My Trip" (Tailored Itineraries) is clicked
     document.getElementById('tailored-btn')?.addEventListener('click', function () {
       window.open('./trip.html', '_blank');
+    });
+
+    // Open comparison.html in a new window when "Compare" is clicked
+    document.getElementById('insights-btn')?.addEventListener('click', function () {
+      window.open('./comparison.html', '_blank');
     });
    </script>
   </body>
