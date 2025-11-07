@@ -3,9 +3,37 @@ class AITripPlanner {
     // Backend server configuration
     this.backendUrl = 'http://localhost:3001';
     this.apiEndpoint = `${this.backendUrl}/api/generate-trip`;
+    this.newsEndpoint = `${this.backendUrl}/api/check-destination-safety`;
     
     // Fallback mode - set to true to use offline mode for testing
     this.fallbackMode = false;
+  }
+
+  async checkDestinationSafety(destination) {
+    console.log('🔍 Checking safety news for:', destination);
+    
+    try {
+      const response = await fetch(this.newsEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ destination })
+      });
+
+      if (!response.ok) {
+        console.warn('⚠️ News check failed, proceeding without safety alerts');
+        return null;
+      }
+
+      const data = await response.json();
+      console.log('✅ Safety check completed');
+      return data.data;
+      
+    } catch (error) {
+      console.error('❌ Error checking destination safety:', error);
+      return null;
+    }
   }
 
   async generateTripPlan(userData) {
@@ -424,9 +452,9 @@ class AITripPlanner {
       { dish: 'Signature Beverage', description: 'Popular local drink or refreshment', restaurants: 'Cafes and eateries', price: '₹30-150', mustTry: false, dietaryInfo: 'Varies' },
       { dish: 'Vegetarian Delight', description: 'Famous vegetarian dish', restaurants: 'Top vegetarian restaurants', price: '₹100-300', mustTry: false, dietaryInfo: 'Vegetarian' }
     ];
-  }   
+  }
+
   generateShoppingRecommendations(destination, region) {    
-    // Enhanced shopping database with specific markets and items 
     const regionShopping = {
       'Odisha': [ 
         { market: 'Handloom Market', description: 'Traditional handwoven textiles including Sambalpuri sarees and ikat fabrics', popularItems: 'Sarees, dupattas, dress materials', location: 'Unit-III, Bhubaneswar', operatingHours: '10 AM - 7 PM', bestTimeToVisit: 'Afternoon', tips: 'Bargain for better prices' },
@@ -448,28 +476,7 @@ class AITripPlanner {
         { market: 'Fashion Street', description: 'Street market with trendy clothing and accessories at affordable prices', popularItems: 'Clothing, accessories', location: 'MG Road, Mumbai', operatingHours: '10 AM - 8 PM', bestTimeToVisit: 'Afternoon', tips: 'Ideal for budget shopping' },  
         { market: 'Chor Bazaar', description: 'Famous flea market for antiques, vintage items, and curios', popularItems: 'Antiques, vintage goods', location: 'Mahalaxmi area, Mumbai', operatingHours: '11 AM - 7 PM', bestTimeToVisit: 'Morning', tips: 'Haggle for best deals' },  
         { market: 'Pune Central Mall', description: 'Modern shopping mall with national and international brands', popularItems: 'Branded clothing, electronics', location: 'FC Road, Pune', operatingHours: '10 AM - 10 PM', bestTimeToVisit: 'Evening', tips: 'Look for seasonal sales' }  
-      ],
-      'Tamil Nadu': [
-        { market: 'T. Nagar Market', description: 'Bustling shopping district known for silk sarees and gold jewelry', popularItems: 'Silk sarees, gold jewelry', location: 'Thyagaraya Nagar, Chennai', operatingHours: '10 AM - 9 PM', bestTimeToVisit: 'Morning', tips: 'Bargain for better prices' },
-        { market: 'Pondy Bazaar', description: 'Vibrant street market for clothing, accessories, and street food', popularItems: 'Clothing, accessories, street food', location: 'Pondy Bazaar, Chennai', operatingHours: '10 AM - 8 PM', bestTimeToVisit: 'Afternoon', tips: 'Explore side lanes for unique finds' },
-        { market: 'Chennai Silks', description: 'Famous store for silk sarees and traditional attire', popularItems: 'Sil k sarees, dress materials', location: 'Multiple locations in Chennai', operatingHours: '10 AM - 9 PM', bestTimeToVisit: 'Any time', tips: 'Check for festive collections' },  
-        { market: 'Kanchipuram Handloom Market', description: 'Renowned for authentic Kanchipuram silk sarees', popularItems: 'Kanchipuram sarees, silk fabrics', location: 'Kanchipuram town', operatingHours: '10 AM - 6 PM', bestTimeToVisit: 'Morning', tips: 'Buy from reputed stores for authenticity' }, 
-        { market: 'Ranganathan Street', description: 'Famous shopping street for clothes, accessories, and electronics', popularItems: 'Clothing, accessories, electronics', location: 'T. Nagar, Chennai', operatingHours: '10 AM - 8 PM', bestTimeToVisit: 'Afternoon', tips: 'Ideal for budget shopping' }  
-      ],
-      'Karnataka': [
-        { market: 'Commercial Street', description: 'Popular shopping area for clothing, accessories, and footwear', popularItems: 'Clothing, shoes, accessories', location: 'Bangalore city center', operatingHours: '10 AM - 9 PM', bestTimeToVisit: 'Morning', tips: 'Bargain for better deals' },
-        { market: 'Chickpet Market', description: 'Historic market known for silk sarees and traditional textiles', popularItems: 'Silk sarees, fabrics', location: 'Chickpet area, Bangalore', operatingHours: '10 AM - 7 PM', bestTimeToVisit: 'Morning', tips: 'Look for authentic silk products' }, 
-        { market: 'Brigade Road', description: 'Trendy shopping street with branded stores and eateries', popularItems: 'Branded clothing, accessories', location: 'Bangalore city center', operatingHours: '10 AM - 9 PM', bestTimeToVisit: 'Afternoon', tips: 'Great for youth fashion' },  
-        { market: 'Mysore Silk Market', description: 'Famous for Mysore silk sarees and garments', popularItems: 'Mysore silk sarees, dress materials', location: 'Mysore city center', operatingHours: '10 AM - 6 PM', bestTimeToVisit: 'Morning', tips: 'Buy from authorized dealers' },  
-        { market: 'UB City Mall', description: 'Luxury shopping mall with high-end brands and fine dining', popularItems: 'Designer clothing, accessories', location: 'Bangalore city center', operatingHours: '10 AM - 10 PM', bestTimeToVisit: 'Evening', tips: 'Look for seasonal sales' } 
-      ],  
-      'West Bengal': [  
-        { market: 'New Market', description: 'Historic market for clothing, accessories, and street food', popularItems: 'Clothing, jewelry, handicrafts', location: 'Esplanade area, Kolkata', operatingHours: '10 AM - 8 PM', bestTimeToVisit: 'Morning', tips: 'Bargain for better prices' },    
-        { market: 'Gariahat Market', description: 'Popular shopping area for sarees, jewelry, and home decor', popularItems: 'Sarees, jewelry, home decor', location: 'Gariahat area, Kolkata', operatingHours: '10 AM - 8 PM', bestTimeToVisit: 'Afternoon', tips: 'Explore side lanes for unique finds' },  
-        { market: 'Dakshinapan Shopping Complex', description: 'Cultural complex showcasing handicrafts from across India', popularItems: 'Handicrafts, textiles, jewelry', location: 'Dakshinapan area, Kolkata', operatingHours: '10 AM - 7 PM', bestTimeToVisit: 'Afternoon', tips: 'Great for souvenirs and gifts' }, 
-        { market: 'College Street', description: 'Famous for bookstores and literary shops', popularItems: 'Books, stationery', location: 'College Street area, Kolkata', operatingHours: '10 AM - 6 PM', bestTimeToVisit: 'Morning', tips: 'Ideal for book lovers' },  
-        { market: 'South City Mall', description: 'Modern shopping mall with national and international brands', popularItems: 'Branded clothing, electronics', location: 'South City area, Kolkata', operatingHours: '10 AM - 10 PM', bestTimeToVisit: 'Evening', tips: 'Look for seasonal sales' }  
-      ]  
+      ]
     };
     return regionShopping[region] || [
       { market: 'Local Handicraft Market', description: `Market known for traditional crafts and souvenirs from ${destination}`, popularItems: 'Handicrafts, textiles, jewelry', location: 'Central market area', operatingHours: '10 AM - 8 PM', bestTimeToVisit: 'Morning', tips: 'Bargain for better prices' },
@@ -596,7 +603,6 @@ class AITripPlanner {
       'Inform your bank about travel dates to avoid card blocks'
     ];
     
-    // Transport-specific tips
     if (transport === 'flight') {
       baseTips.push('Check baggage restrictions and arrive 2-3 hours early for domestic flights');
       baseTips.push('Download airline app for mobile check-in and real-time updates');
@@ -608,7 +614,6 @@ class AITripPlanner {
       baseTips.push('Book window seats for better views, carry motion sickness medication');
     }
     
-    // Age-specific tips
     if (age > 60) {
       baseTips.push('Consider comprehensive travel insurance for seniors');
       baseTips.push('Pack all regular medications with extra quantity');
@@ -618,7 +623,6 @@ class AITripPlanner {
       baseTips.push('Use travel apps for discounts and connecting with fellow travelers');
     }
     
-    // Destination-specific tips
     if (destinationInfo.type === 'mountain') {
       baseTips.push('Pack warm clothes even in summer, mountain temperatures drop at night');
       baseTips.push('Acclimatize gradually if going to high altitude destinations');
@@ -708,11 +712,78 @@ class AITripPlanner {
   }
 }
 
-// Enhanced UI Display Function for AI responses
-function displayAITripPlan(planData, userData) {
+// Enhanced UI Display Function with News Alert
+function displayAITripPlan(planData, userData, safetyNews = null) {
   const hasAIContent = planData.metadata && planData.metadata.source !== 'offline';
   
+  // Generate safety alert section if there are warnings
+  const safetyAlertHTML = safetyNews && safetyNews.hasConcerns ? `
+    <div style="max-width: 1000px; margin: 20px auto 0; padding: 25px; background: linear-gradient(135deg, #fff3cd 0%, #ffe4a3 100%); border-radius: 15px; box-shadow: 0 8px 25px rgba(255, 193, 7, 0.3); border-left: 6px solid #ff6b6b;">
+      <div style="display: flex; align-items: center; margin-bottom: 15px;">
+        <div style="font-size: 48px; margin-right: 20px;">⚠️</div>
+        <div>
+          <h2 style="margin: 0; color: #d32f2f; font-size: 28px;">Travel Advisory: ${userData.destination}</h2>
+          <p style="margin: 5px 0 0 0; color: #f57c00; font-size: 16px; font-weight: bold;">
+            ${safetyNews.severityLevel === 'high' ? '🔴 HIGH RISK - Travel NOT Recommended' : 
+              safetyNews.severityLevel === 'medium' ? '🟡 MEDIUM RISK - Exercise Caution' : 
+              '🟢 LOW RISK - Be Aware'}
+          </p>
+        </div>
+      </div>
+      
+      ${safetyNews.mainConcern ? `
+        <div style="background: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #d32f2f;">
+          <h3 style="margin: 0 0 10px 0; color: #d32f2f; font-size: 20px;">🚨 Current Situation</h3>
+          <p style="margin: 0; color: #333; font-size: 16px; line-height: 1.6;">${safetyNews.mainConcern}</p>
+        </div>
+      ` : ''}
+      
+      ${safetyNews.newsHeadlines && safetyNews.newsHeadlines.length > 0 ? `
+        <div style="background: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+          <h3 style="margin: 0 0 15px 0; color: #f57c00; font-size: 18px;">📰 Recent News Updates</h3>
+          <div style="display: grid; gap: 12px;">
+            ${safetyNews.newsHeadlines.slice(0, 5).map(headline => `
+              <div style="padding: 12px; background: #fff; border-radius: 8px; border-left: 3px solid #ff9800;">
+                <div style="font-weight: bold; color: #333; margin-bottom: 5px;">• ${headline.title}</div>
+                ${headline.summary ? `<div style="font-size: 14px; color: #666; margin-left: 15px;">${headline.summary}</div>` : ''}
+                ${headline.date ? `<div style="font-size: 12px; color: #999; margin-top: 5px; margin-left: 15px;">📅 ${headline.date}</div>` : ''}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
+      
+      ${safetyNews.recommendations && safetyNews.recommendations.length > 0 ? `
+        <div style="background: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+          <h3 style="margin: 0 0 15px 0; color: #2e7d32; font-size: 18px;">💡 Safety Recommendations</h3>
+          <ul style="margin: 0; padding-left: 20px; color: #333;">
+            ${safetyNews.recommendations.map(rec => `
+              <li style="margin-bottom: 10px; line-height: 1.5;">${rec}</li>
+            `).join('')}
+          </ul>
+        </div>
+      ` : ''}
+      
+      <div style="background: rgba(211, 47, 47, 0.1); padding: 15px; border-radius: 10px; margin-top: 15px;">
+        <p style="margin: 0; color: #d32f2f; font-weight: bold; font-size: 14px;">
+          ⚠️ IMPORTANT: Please check official government travel advisories and local news before making travel plans. 
+          ${safetyNews.severityLevel === 'high' ? 'We strongly recommend postponing your trip until the situation stabilizes.' : 
+            safetyNews.severityLevel === 'medium' ? 'If you choose to travel, take extra precautions and stay informed.' : 
+            'Stay updated on local conditions during your visit.'}
+        </p>
+      </div>
+      
+      <div style="text-align: center; margin-top: 20px; padding-top: 15px; border-top: 2px solid rgba(0,0,0,0.1);">
+        <p style="margin: 0; color: #666; font-size: 13px; font-style: italic;">
+          Last updated: ${safetyNews.lastUpdated || new Date().toLocaleString()} | Source: News aggregation
+        </p>
+      </div>
+    </div>
+  ` : '';
+  
   const tripPlanHTML = `
+    ${safetyAlertHTML}
+    
     <div style="max-width: 1000px; margin: 20px auto; padding: 20px; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
       
       <!-- Header Section -->
@@ -839,7 +910,7 @@ function displayAITripPlan(planData, userData) {
       <!-- Attractions & Activities -->
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 25px;">
         <div style="background: linear-gradient(135deg, #fff8f0 0%, #fef3e2 100%); padding: 20px; border-radius: 12px;">
-          <h3 style="color: #fd7e14; margin-top: 0;">📍 ${hasAIContent ? 'AI-Recommended' : 'Top'} Attractions</h3>
+          <h3 style="color: #fd7e14; margin-top: 0;">🏛️ ${hasAIContent ? 'AI-Recommended' : 'Top'} Attractions</h3>
           <div style="max-height: 400px; overflow-y: auto;">
             ${planData.attractions.map(attraction => `
               <div style="margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.8); border-radius: 8px;">
@@ -890,7 +961,7 @@ function displayAITripPlan(planData, userData) {
               <div style="font-size: 12px; color: #888; margin-bottom: 5px;">
                 💰 ${dish.price} | ${dish.dietaryInfo || 'Mixed options'}
               </div>
-              ${dish.restaurants ? `<div style="font-size: 12px; color: #28a745;"><strong>🏪 Where:</strong> ${dish.restaurants}</div>` : ''}
+              ${dish.restaurants ? `<div style="font-size: 12px; color: #28a745;"><strong>🪧 Where:</strong> ${dish.restaurants}</div>` : ''}
             </div>
           `).join('')}
         </div>
@@ -899,13 +970,14 @@ function displayAITripPlan(planData, userData) {
           <h3 style="color: #d2691e; margin-top: 0;">🛍️ Shopping Guide</h3>
           ${planData.shopping.map(item => `
             <div style="margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.8); border-radius: 8px;">
-              <div style="font-weight: bold; color: #d2691e; margin-bottom: 5px;">${item.item}</div>
+              <div style="font-weight: bold; color: #d2691e; margin-bottom: 5px;">${item.market || item.item}</div>
               <div style="font-size: 14px; color: #666; margin-bottom: 8px;">${item.description}</div>
               <div style="font-size: 12px; color: #888; margin-bottom: 5px;">
-                💰 ${item.priceRange}
+                💰 ${item.priceRange || item.price || 'Varies'}
               </div>
-              ${item.markets ? `<div style="font-size: 12px; color: #28a745; margin-bottom: 5px;"><strong>🏪 Markets:</strong> ${item.markets}</div>` : ''}
-              ${item.bargaining ? `<div style="font-size: 12px; color: #007bff;"><strong>💡 Bargaining:</strong> ${item.bargaining}</div>` : ''}
+              ${item.location ? `<div style="font-size: 12px; color: #28a745; margin-bottom: 5px;"><strong>📍 Location:</strong> ${item.location}</div>` : ''}
+              ${item.popularItems ? `<div style="font-size: 12px; color: #007bff; margin-bottom: 5px;"><strong>🛒 Popular items:</strong> ${item.popularItems}</div>` : ''}
+              ${item.tips || item.bargaining ? `<div style="font-size: 12px; color: #6f42c1;"><strong>💡 Tip:</strong> ${item.tips || item.bargaining}</div>` : ''}
             </div>
           `).join('')}
         </div>
@@ -964,6 +1036,7 @@ document.addEventListener('DOMContentLoaded', function() {
   console.log('🚀 AI Trip Planner initialized');
   console.log('🔧 Backend URL:', aiPlanner.backendUrl);
   console.log('🔧 Fallback mode:', aiPlanner.fallbackMode);
+  checkBackendHealth();
 });
 
 // Generate new variation
@@ -977,7 +1050,8 @@ async function generateNewVariation() {
     
     try {
       const newPlan = await aiPlanner.generateTripPlan(currentUserData);
-      displayAITripPlan(newPlan, currentUserData);
+      const safetyNews = await aiPlanner.checkDestinationSafety(currentUserData.destination);
+      displayAITripPlan(newPlan, currentUserData, safetyNews);
     } catch (error) {
       console.error('Error:', error);
       submitBtn.innerHTML = originalText;
@@ -1028,13 +1102,17 @@ document.getElementById("tripForm").addEventListener("submit", async function(ev
   submitBtn.style.background = '#6c757d';
 
   try {
+    // Check destination safety first
+    console.log('🔍 Checking destination safety...');
+    const safetyNews = await aiPlanner.checkDestinationSafety(data.destination);
+    
     // Generate trip plan
     console.log('🚀 Starting trip plan generation...');
     const tripPlan = await aiPlanner.generateTripPlan(data);
     
     // Add realistic processing delay
     setTimeout(() => {
-      displayAITripPlan(tripPlan, data);
+      displayAITripPlan(tripPlan, data, safetyNews);
     }, 1500);
     
   } catch (error) {
@@ -1085,6 +1163,6 @@ async function checkBackendHealth() {
     }
   } catch (error) {
     console.warn('⚠️ Backend server not reachable. Using offline mode.');
-      aiPlanner.fallbackMode = true;
-    }
+    aiPlanner.fallbackMode = true;
   }
+}
