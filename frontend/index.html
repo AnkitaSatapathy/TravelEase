@@ -176,15 +176,13 @@
         <div class="journey__card">
           <div class="journey__card__bg">
             <span><i class="ri-bookmark-3-line"></i></span>
-            <h4>Seamless Booking Process</h4>
+            <h4>Seamless Searching Process</h4>
           </div>
           <div class="journey__card__content">
             <span><i class="ri-bookmark-3-line"></i></span>
-            <h4>Easy Reservations, One Click Away</h4>
+            <h4>Easy Search, One Click Away</h4>
             <p>
-              From flights and accommodations to activities and transfers,
-              everything you need is available at your fingertips, making travel
-              planning effortless.
+              Quickly search and compare flights from your departure city to your destination. View airlines, fares, schedules and durations to find the best option.
             </p>
           </div>
         </div>
@@ -225,7 +223,7 @@
      <!-- Buttons placed outside the cards, visually aligned under each box -->
      <div class="journey__actions journey__grid">
        <div class="journey__action">
-         <button class="btn journey__btn" id="seamless-btn">Learn More</button>
+         <button class="btn journey__btn" id="seamless-btn">Search Flights</button>
        </div>
        <div class="journey__action">
          <button class="btn journey__btn" id="tailored-btn">Plan My Trip</button>
@@ -321,6 +319,11 @@
     // Open comparison.html in a new window when "Compare" is clicked
     document.getElementById('insights-btn')?.addEventListener('click', function () {
       window.open('./comparison.html', '_blank');
+    });
+
+    // Open flight.html in a new window when "Search Flights" is clicked
+    document.getElementById('seamless-btn')?.addEventListener('click', function () {
+      window.open('./flight.html', '_blank');
     });
    </script>
   </body>

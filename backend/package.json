@@ -9,8 +9,10 @@
     "dev": "nodemon server.js",
     "start:comparison": "node --no-warnings comparisonserver.js",
     "dev:comparison": "nodemon comparisonserver.js",
-    "start:both": "concurrently \"npm run dev\" \"npm run dev:comparison\"",
-    "start:prod": "concurrently \"npm start\" \"npm run start:comparison\""
+    "start:flight": "node --no-warnings flightserver.js",
+    "dev:flight": "nodemon flightserver.js",
+    "start:all": "concurrently \"npm run dev\" \"npm run dev:comparison\" \"npm run dev:flight\"",
+    "start:prod": "concurrently \"npm start\" \"npm run start:comparison\" \"npm run start:flight\""
   },
   "dependencies": {
     "cors": "^2.8.5",

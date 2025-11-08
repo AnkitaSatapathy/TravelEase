@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight & Hotel Search - AI Trip Planner</title>
+    <link rel="stylesheet" href="flight.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="logo">
+                <h1>✈️ Travel Booker</h1>
+            </div>
+            <nav class="main-nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="trip.html" class="nav-link">Trip Planner</a>
+                <a href="comparison.html" class="nav-link">Compare</a>
+                <a href="flight.html" class="nav-link active">Book</a>
+            </nav>
+        </header>
+
+        <!-- Currency Selector -->
+        <div class="currency-selector">
+            <label for="currency">💱 Currency:</label>
+            <select id="currency" name="currency">
+                <option value="USD">USD ($)</option>
+                <option value="INR">INR (₹)</option>
+                <option value="EUR">EUR (€)</option>
+                <option value="GBP">GBP (£)</option>
+                <option value="JPY">JPY (¥)</option>
+                <option value="AUD">AUD (A$)</option>
+                <option value="CAD">CAD (C$)</option>
+                <option value="SGD">SGD (S$)</option>
+            </select>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-container">
+            <button class="tab-button active" data-tab="flights">
+                <span class="tab-icon">✈️</span>
+                <span>Flights</span>
+            </button>
+            <button class="tab-button" data-tab="hotels">
+                <span class="tab-icon">🏨</span>
+                <span>Hotels</span>
+            </button>
+        </div>
+
+        <!-- Flights Section -->
+        <section id="flights-section" class="content-section active">
+            <div class="search-card">
+                <h2 class="section-title">Search Flights</h2>
+                <form id="flight-search-form" class="search-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="departure">Departure Airport Code</label>
+                            <input type="text" id="departure" name="departure" placeholder="e.g., JFK, DEL, LHR" required maxlength="3" style="text-transform: uppercase;">
+                            <small>Enter 3-letter IATA code</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="destination">Destination Airport Code</label>
+                            <input type="text" id="destination" name="destination" placeholder="e.g., CDG, BOM, LAX" required maxlength="3" style="text-transform: uppercase;">
+                            <small>Enter 3-letter IATA code</small>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="departure-date">Departure Date</label>
+                            <input type="date" id="departure-date" name="departureDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="return-date">Return Date (Optional)</label>
+                            <input type="date" id="return-date" name="returnDate">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="travelers">Number of Travelers</label>
+                            <input type="number" id="travelers" name="travelers" min="1" max="9" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="class">Class</label>
+                            <select id="class" name="class">
+                                <option value="ECONOMY">Economy</option>
+                                <option value="PREMIUM_ECONOMY">Premium Economy</option>
+                                <option value="BUSINESS">Business</option>
+                                <option value="FIRST">First Class</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="search-button">
+                        <span class="button-text">Search Flights</span>
+                        <span class="button-loader" style="display: none;">Searching...</span>
+                    </button>
+                </form>
+            </div>
+
+            <div id="flight-results" class="results-container" style="display: none;">
+                <h2 class="results-title">Available Flights</h2>
+                <div id="flight-results-content"></div>
+            </div>
+        </section>
+
+        <!-- Hotels Section -->
+        <section id="hotels-section" class="content-section">
+            <div class="search-card">
+                <h2 class="section-title">Search Hotels</h2>
+                <form id="hotel-search-form" class="search-form">
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="hotel-city">City Code</label>
+                            <input type="text" id="hotel-city" name="cityCode" placeholder="e.g., NYC, PAR, LON" required maxlength="3" style="text-transform: uppercase;">
+                            <small>Enter 3-letter city/airport code</small>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="check-in">Check-in Date</label>
+                            <input type="date" id="check-in" name="checkIn" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="check-out">Check-out Date</label>
+                            <input type="date" id="check-out" name="checkOut" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="adults">Number of Adults</label>
+                            <input type="number" id="adults" name="adults" min="1" max="9" value="2" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="rooms">Number of Rooms</label>
+                            <input type="number" id="rooms" name="rooms" min="1" max="8" value="1" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="search-button">
+                        <span class="button-text">Search Hotels</span>
+                        <span class="button-loader" style="display: none;">Searching...</span>
+                    </button>
+                </form>
+            </div>
+
+            <div id="hotel-results" class="results-container" style="display: none;">
+                <h2 class="results-title">Available Hotels</h2>
+                <div id="hotel-results-content"></div>
+            </div>
+        </section>
+    </div>
+
+    <script src="flight.js"></script>
+</body>
+</html>
